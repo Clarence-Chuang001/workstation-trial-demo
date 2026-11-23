@@ -2,6 +2,9 @@ name: Deploy public demo to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'index.html'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,8 +28,10 @@ jobs:
           grep -q '公開試用' index.html
           mkdir -p _site
           cp index.html _site/index.html
-      - name: Configure Pages
+      - name: Configure Pages and initialize site
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
